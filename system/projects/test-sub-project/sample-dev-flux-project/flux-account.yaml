@@ -1,0 +1,42 @@
+---
+#  The service account, cluster roles, and cluster role binding are
+#  only needed for Kubernetes with role-based access control (RBAC).
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    name: test-sample-dev-flux
+  name: test-sample-dev-flux
+  namespace: sample-dev-flux
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    name: test-sample-dev-flux
+  name: test-sample-dev-flux
+  namespace: sample-dev
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flux
+subjects:
+  - kind: ServiceAccount
+    name: test-sample-dev-flux
+    namespace: sample-dev-flux
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    name: test-sample-dev-flux
+  name: test-sample-dev-flux
+  namespace: sample-dev-flux
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: flux
+subjects:
+  - kind: ServiceAccount
+    name: test-sample-dev-flux
+    namespace: sample-dev-flux

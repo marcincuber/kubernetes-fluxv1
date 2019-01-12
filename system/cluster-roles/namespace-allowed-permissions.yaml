@@ -1,0 +1,61 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  labels:
+    name: cluster-test-role
+  name: cluster-test-role
+rules:
+- apiGroups:
+    - ""
+    - extensions
+    - apps
+    - batch
+    - autoscaling
+  resources:
+    - deployments
+    - services
+    - secrets
+    - pods
+    - pods/log
+    - configmaps
+    - ingresses
+    - daemonsets
+    - cronjobs
+    - horizontalpodautoscalers
+    - endpoints
+    - jobs
+    - pods/exec
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+- apiGroups:
+    - ""
+    - rbac.authorization.k8s.io
+  resources:
+    - roles
+    - rolebindings
+    - serviceaccounts
+  verbs:
+    - get
+    - create
+    - update
+    - delete
+    - patch
+- apiGroups:
+    - ""
+  resources:
+    - namespaces
+  verbs:
+    - get
+- apiGroups:
+    - policy
+  resources:
+    - podsecuritypolicies
+  verbs:
+    - use

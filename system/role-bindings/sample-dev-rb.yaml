@@ -1,0 +1,32 @@
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    name: sample-namespaced-bound-role
+  name: sample-namespaced-bound-role
+  namespace: sample-dev
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-test-role
+subjects:
+  - kind: User
+    name: system:serviceaccount:kube-system:sample-dev-admin
+    namespace: sample-dev
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    name: sample-namespaced-bound-role
+  name: sample-namespaced-bound-role
+  namespace: sample-dev-flux
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-test-role
+subjects:
+  - kind: User
+    name: system:serviceaccount:kube-system:sample-dev-admin
+    namespace: sample-dev-flux

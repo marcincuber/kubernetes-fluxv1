@@ -1,0 +1,11 @@
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  creationTimestamp: null
+  name: newrelic-config
+  namespace: default
+spec:
+  encryptedData:
+    newrelic_key: HERE_SHOULD_BE_THE_VALUE_OF_BASE64_ENCODED_NEWRELIC_KEY_ENCRYPTED_USING_CRT_FROM_SEALED_SECRETS
+
+# Note that this file won't work as you need to generate your own encrypted secret. See the README
