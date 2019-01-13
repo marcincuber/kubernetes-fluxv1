@@ -24,7 +24,7 @@ spec:
       containers:
       - name: flux
         args:
-        - --git-url=git@github.com:marcin/k8s-flux.git
+        - --git-url=git@github.com:marcincuber/k8s-flux.git
         - --git-branch=master
         - --git-path=system
         - --git-poll-interval=120s
