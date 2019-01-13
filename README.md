@@ -1,4 +1,4 @@
-# k8s-flux
+# Kubernetes flux
 
 This repository contains code used to define the [Weaveworks Flux](https://github.com/weaveworks/flux) set up for the one of my sample clusters. Flux is used to sync Kubernetes YAML stored in Git with a remote cluster.
 
@@ -49,10 +49,11 @@ In this example you can find the following Kuberentes resources to be controlled
 *	Service Accounts
 *	External DNS
 *	Metrics Server
-*	Sealed-Secrets [home of sealed-secrets](https://github.com/bitnami-labs/sealed-secrets)
+*	Sealed-Secrets
 *	NewRelic Monitoring
 *	Kube State Metrics required for NewRelic Monitoring
 *	Flux instance/s for applications
+* Nginx Ingress Controller (WebSockets examples)
 
 ## External DNS
 
@@ -222,6 +223,33 @@ spec:
 The only signifcant differences between this config and the _system_ Flux config are that the `--git-url` is now pointing at the application flux repository, `--git-path` corresponds do a relevant directory in that repository and the `--k8s-namespace-whitelist` is now the target namespace for the _application_ Flux. Also in your deployment spec you specify service account `test-sample-dev-flux`.
 
 Please make sure you modify application so that it points at your application's repository. I only used fake values in my `test-sub-project` deployment flux yaml.
+
+## Nginx Ingress Controller
+
+### What is an Ingress Controller?
+
+Configuring a webserver or loadbalancer is harder than it should be. Most webserver configuration files are very similar. There are some applications that have weird little quirks that tend to throw a wrench in things, but for the most part you can apply the same logic to them and achieve a desired result.
+
+The Ingress resource embodies this idea, and an Ingress controller is meant to handle all the quirks associated with a specific "class" of Ingress.
+
+An Ingress Controller is a daemon, deployed as a Kubernetes Pod, that watches the apiserver's `/ingresses` endpoint for updates to the [Ingress resource](https://kubernetes.io/docs/concepts/services-networking/ingress/). Its job is to satisfy requests for Ingresses.
+
+To check out [Live Docs](https://kubernetes.github.io/ingress-nginx/)
+
+Templates for Nginx Ingress controller can be found in `system/nginx-ingress/`. It is an example of a configuration supporting WebSockets requirement.
+
+### Service configuration
+
+Inside `system/nginx-ingress/service.yaml` make sure you put your `ACM certificate ARN` which is required for triffic going through port 443.
+
+```yaml
+metadata:
+  annotations:
+    # replace with the correct value of the generated certificate in the AWS console
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: "YOUR_ACM_CERTIFICATE_ARN"
+```
+
+If you decide to modify it further to suite your needs, please see -> [nginx controller repo](https://github.com/kubernetes/ingress-nginx).
 
 ## Disaster Recovery
 
